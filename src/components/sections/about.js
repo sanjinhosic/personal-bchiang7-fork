@@ -125,7 +125,17 @@ const About = () => {
     sr.reveal(revealContainer.current, srConfig());
   }, []);
 
-  const skills = ['JavaScript (ES6+)', 'TypeScript', 'React', 'Eleventy', 'Node.js', 'WordPress'];
+  const skills = [
+    'R/Shiny Dashboards',
+    'Data Viz (ggplot2, plotly)',
+    'ETL Pipelines (GitLab CI, Docker, OpenShift)',
+    'Bayesian Modeling (Stan/brms)',
+    `Machine Learning (tidymodels)`,
+    'CAR-T Cell Therapy',
+    `CMC & Process Development`,
+    'Experimental Design (DoE)',
+    'NLP & Text Mining',
+  ];
 
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
@@ -135,33 +145,33 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! My name is Brittany and I enjoy creating things that live on the internet. My
-              interest in web development started back in 2012 when I decided to try editing custom
-              Tumblr themes — turns out hacking together a custom reblog button taught me a lot
-              about HTML &amp; CSS!
+              Hello! My name is Sanjin (pronounced <em>sahn-yihn</em>) and I engineer data solutions
+              for the biotech industry. With a background in Chemical Engineering, I spent the early
+              part of my career in the wet lab at <strong>Cubist Pharmaceuticals</strong> (acquired
+              by <strong>Merck</strong>), <strong>Sarepta Therapeutics</strong>, and{' '}
+              <strong>bluebird bio</strong> (turned <strong>2seventybio</strong>).
             </p>
 
             <p>
-              Fast-forward to today, and I’ve had the privilege of working at{' '}
-              <a href="https://us.mullenlowe.com/">an advertising agency</a>,{' '}
-              <a href="https://starry.com/">a start-up</a>,{' '}
-              <a href="https://www.apple.com/">a huge corporation</a>, and{' '}
-              <a href="https://scout.camd.northeastern.edu/">a student-led design studio</a>. My
-              main focus these days is building accessible, inclusive products and digital
-              experiences at <a href="https://upstatement.com/">Upstatement</a> for a variety of
-              clients.
+              I transitioned into Data Science to solve a specific problem: the lack of robust
+              analytics in process development.
             </p>
 
             <p>
-              I also recently{' '}
-              <a href="https://www.newline.co/courses/build-a-spotify-connected-app">
-                launched a course
-              </a>{' '}
-              that covers everything you need to build a web app with the Spotify API using Node
-              &amp; React.
+              Today, I am a <strong>Principal Data Scientist</strong> at{' '}
+              <a href="https://www.novartis.com/">Novartis</a>, focusing on the clinical development
+              and commercialization of a next-gen, rapid CAR-T cell therapy process and product. I
+              build tools that allow teams to see around corners—using{' '}
+              <strong>predictive modeling</strong> and <strong>interactive dashboards</strong> to
+              forecast manufacturing risks before they happen.
             </p>
 
-            <p>Here are a few technologies I’ve been working with recently:</p>
+            <p>
+              From architecting automated ETL pipelines to developing Bayesian models for process
+              characterization, I help turn raw data into regulatory-grade evidence.
+            </p>
+
+            <p>Here are a few technologies I've been working with recently:</p>
           </div>
 
           <ul className="skills-list">
