@@ -7,6 +7,8 @@ range: 'Nov 2021 - Present'
 url: 'https://www.novartis.com/'
 ---
 
-- Placeholder: Add your accomplishments and responsibilities here
-- Placeholder: Add another bullet point
-- Placeholder: Add another bullet point
+At Novartis, I'm driving the development and commercialization of **T-Charge**—a next-generation, rapid CAR-T manufacturing platform. I combine advanced data science with deep CMC domain expertise to enhance decision-making and accelerate clinical development.
+
+I've built analytics infrastructure that lets our global teams see around corners. From **automated ETL pipelines**, **interactive dashboards**, **NLP-driven root cause analysis**, **predictive machine learning**, to **Bayesian models** that simulate manufacturing success before we run a single batch—my work spans the full spectrum from data engineering to visualization to advanced statistical modeling.
+
+The common thread is turning complex, messy biological and manufacturing data into clear, actionable insights that directly influence **process design**, **real-time manufacturing decisions**, **regulatory filings**, and **clinical trial design**.

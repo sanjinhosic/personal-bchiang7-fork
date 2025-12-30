@@ -7,6 +7,4 @@ range: 'Sep 2014 - Apr 2019'
 url: 'https://www.northeastern.edu/'
 ---
 
-- Placeholder: Add your accomplishments and responsibilities here
-- Placeholder: Add another bullet point
-- Placeholder: Add another bullet point
+For my Ph.D., I developed microfluidic **"organ-on-a-chip"** technologies to model the human gut-enteric axis. I engineered novel fluidic hardware and established complex co-culture systems using human intestinal stem cells.

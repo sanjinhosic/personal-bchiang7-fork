@@ -7,6 +7,4 @@ range: 'Jul 2013 - Aug 2014'
 url: 'https://www.linkedin.com/company/cubist-pharmaceuticals/'
 ---
 
-- Placeholder: Add your accomplishments and responsibilities here
-- Placeholder: Add another bullet point
-- Placeholder: Add another bullet point
+At Cubist, I worked in the Process Chemistry group where I developed downstream purification processes for APIs heading into pre-clinical and clinical studies. This role gave me a strong foundation in pharmaceutical manufacturing before the company was acquired by Merck.
