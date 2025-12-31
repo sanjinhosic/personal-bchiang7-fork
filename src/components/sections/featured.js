@@ -1,416 +1,268 @@
 import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import sr from '@utils/sr';
 import { srConfig } from '@config';
-import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
-const StyledProjectsGrid = styled.ul`
-  ${({ theme }) => theme.mixins.resetList};
+const blink = keyframes`
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+`;
 
-  a {
-    position: relative;
-    z-index: 1;
+const pulse = keyframes`
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+`;
+
+const StyledProjectsSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 400px;
+`;
+
+const StyledPlaceholder = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 50px auto 0;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, var(--light-navy) 0%, var(--lightest-navy) 100%);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--lightest-navy);
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 40px 25px;
+    margin: 30px auto 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, var(--green-tint) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--green-tint) 0%, transparent 50%);
+    pointer-events: none;
   }
 `;
 
-const StyledProject = styled.li`
+const StyledTerminal = styled.div`
+  width: 100%;
+  max-width: 500px;
+  background: var(--dark-navy);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -15px var(--navy-shadow);
   position: relative;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(12, 1fr);
+  z-index: 1;
+`;
+
+const StyledTerminalHeader = styled.div`
+  display: flex;
   align-items: center;
+  padding: 12px 16px;
+  background: var(--navy);
+  gap: 8px;
+`;
 
-  @media (max-width: 768px) {
-    ${({ theme }) => theme.mixins.boxShadow};
-  }
+const StyledDot = styled.span`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: ${props => props.color};
+`;
 
-  &:not(:last-of-type) {
-    margin-bottom: 100px;
+const StyledTerminalBody = styled.div`
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: var(--fz-sm);
+  line-height: 1.8;
+  color: var(--slate);
 
-    @media (max-width: 768px) {
-      margin-bottom: 70px;
-    }
-
-    @media (max-width: 480px) {
-      margin-bottom: 30px;
-    }
-  }
-
-  &:nth-of-type(odd) {
-    .project-content {
-      grid-column: 7 / -1;
-      text-align: right;
-
-      @media (max-width: 1080px) {
-        grid-column: 5 / -1;
-      }
-      @media (max-width: 768px) {
-        grid-column: 1 / -1;
-        padding: 40px 40px 30px;
-        text-align: left;
-      }
-      @media (max-width: 480px) {
-        padding: 25px 25px 20px;
-      }
-    }
-    .project-tech-list {
-      justify-content: flex-end;
-
-      @media (max-width: 768px) {
-        justify-content: flex-start;
-      }
-
-      li {
-        margin: 0 0 5px 20px;
-
-        @media (max-width: 768px) {
-          margin: 0 10px 5px 0;
-        }
-      }
-    }
-    .project-links {
-      justify-content: flex-end;
-      margin-left: 0;
-      margin-right: -10px;
-
-      @media (max-width: 768px) {
-        justify-content: flex-start;
-        margin-left: -10px;
-        margin-right: 0;
-      }
-    }
-    .project-image {
-      grid-column: 1 / 8;
-
-      @media (max-width: 768px) {
-        grid-column: 1 / -1;
-      }
-    }
-  }
-
-  .project-content {
-    position: relative;
-    grid-column: 1 / 7;
-    grid-row: 1 / -1;
-
-    @media (max-width: 1080px) {
-      grid-column: 1 / 9;
-    }
-
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-      grid-column: 1 / -1;
-      padding: 40px 40px 30px;
-      z-index: 5;
-    }
-
-    @media (max-width: 480px) {
-      padding: 30px 25px 20px;
-    }
-  }
-
-  .project-overline {
-    margin: 10px 0;
-    color: var(--green);
-    font-family: var(--font-mono);
+  @media (max-width: 480px) {
     font-size: var(--fz-xs);
-    font-weight: 400;
+    padding: 15px;
+  }
+`;
+
+const StyledLine = styled.div`
+  display: flex;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 
-  .project-title {
+  .prompt {
+    color: var(--green);
+    margin-right: 10px;
+    user-select: none;
+  }
+
+  .command {
     color: var(--lightest-slate);
-    font-size: clamp(24px, 5vw, 28px);
-
-    @media (min-width: 768px) {
-      margin: 0 0 20px;
-    }
-
-    @media (max-width: 768px) {
-      color: var(--white);
-
-      a {
-        position: static;
-
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          z-index: 0;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-      }
-    }
   }
 
-  .project-description {
-    ${({ theme }) => theme.mixins.boxShadow};
-    position: relative;
-    z-index: 2;
-    padding: 25px;
-    border-radius: var(--border-radius);
-    background-color: var(--light-navy);
-    color: var(--light-slate);
+  .output {
+    color: var(--slate);
+    padding-left: 20px;
+  }
+
+  .highlight {
+    color: var(--green);
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--green);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: ${blink} 1s step-end infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      opacity: 1;
+    }
+  }
+`;
+
+const StyledMessage = styled.div`
+  text-align: center;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+
+  h3 {
+    color: var(--lightest-slate);
+    font-size: var(--fz-xxl);
+    margin-bottom: 15px;
+  }
+
+  p {
+    color: var(--slate);
     font-size: var(--fz-lg);
+    max-width: 450px;
+    line-height: 1.5;
 
-    @media (max-width: 768px) {
-      padding: 20px 0;
-      background-color: transparent;
-      box-shadow: none;
-
-      &:hover {
-        box-shadow: none;
-      }
-    }
-
-    a {
-      ${({ theme }) => theme.mixins.inlineLink};
-    }
-
-    strong {
-      color: var(--white);
-      font-weight: normal;
+    @media (max-width: 480px) {
+      font-size: var(--fz-md);
     }
   }
+`;
 
-  .project-tech-list {
+const StyledProgress = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  font-family: var(--font-mono);
+  font-size: var(--fz-xs);
+  color: var(--slate);
+  position: relative;
+  z-index: 1;
+
+  .dots {
     display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 2;
-    margin: 25px 0 10px;
-    padding: 0;
-    list-style: none;
-
-    li {
-      margin: 0 20px 5px 0;
-      color: var(--light-slate);
-      font-family: var(--font-mono);
-      font-size: var(--fz-xs);
-      white-space: nowrap;
-    }
-
-    @media (max-width: 768px) {
-      margin: 10px 0;
-
-      li {
-        margin: 0 10px 5px 0;
-        color: var(--lightest-slate);
-      }
-    }
+    gap: 4px;
   }
 
-  .project-links {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-top: 10px;
-    margin-left: -10px;
-    color: var(--lightest-slate);
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: ${pulse} 1.5s ease-in-out infinite;
 
-    a {
-      ${({ theme }) => theme.mixins.flexCenter};
-      padding: 10px;
-
-      &.external {
-        svg {
-          width: 22px;
-          height: 22px;
-          margin-top: -4px;
-        }
-      }
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      opacity: 0.6;
     }
 
-    .cta {
-      ${({ theme }) => theme.mixins.smallButton};
-      margin: 10px;
+    &:nth-child(2) {
+      animation-delay: 0.2s;
     }
-  }
-
-  .project-image {
-    ${({ theme }) => theme.mixins.boxShadow};
-    grid-column: 6 / -1;
-    grid-row: 1 / -1;
-    position: relative;
-    z-index: 1;
-
-    @media (max-width: 768px) {
-      grid-column: 1 / -1;
-      height: 100%;
-      opacity: 0.25;
-    }
-
-    a {
-      width: 100%;
-      height: 100%;
-      background-color: var(--green);
-      border-radius: var(--border-radius);
-      vertical-align: middle;
-
-      &:hover,
-      &:focus {
-        background: transparent;
-        outline: 0;
-
-        &:before,
-        .img {
-          background: transparent;
-          filter: none;
-        }
-      }
-
-      &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 3;
-        transition: var(--transition);
-        background-color: var(--navy);
-        mix-blend-mode: screen;
-      }
-    }
-
-    .img {
-      border-radius: var(--border-radius);
-      mix-blend-mode: multiply;
-      filter: grayscale(100%) contrast(1) brightness(90%);
-
-      @media (max-width: 768px) {
-        object-fit: cover;
-        width: auto;
-        height: 100%;
-        filter: grayscale(100%) contrast(1) brightness(50%);
-      }
+    &:nth-child(3) {
+      animation-delay: 0.4s;
     }
   }
 `;
 
 const Featured = () => {
-  const data = useStaticQuery(graphql`
-    {
-      featured: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/content/featured/" } }
-        sort: { fields: [frontmatter___date], order: ASC }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              title
-              cover {
-                childImageSharp {
-                  gatsbyImageData(width: 700, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
-                }
-              }
-              tech
-              github
-              external
-              cta
-            }
-            html
-          }
-        }
-      }
-    }
-  `);
-
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
-  const revealTitle = useRef(null);
-  const revealProjects = useRef([]);
+  const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
-
-    sr.reveal(revealTitle.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
+    sr.reveal(revealContainer.current, srConfig());
   }, []);
 
   return (
-    <section id="projects">
-      <h2 className="numbered-heading" ref={revealTitle}>
-        Some Things I’ve Built
-      </h2>
+    <StyledProjectsSection id="projects" ref={revealContainer}>
+      <h2 className="numbered-heading">Some Things I've Built</h2>
 
-      <StyledProjectsGrid>
-        {featuredProjects &&
-          featuredProjects.map(({ node }, i) => {
-            const { frontmatter, html } = node;
-            const { external, title, tech, github, cover, cta } = frontmatter;
-            const image = getImage(cover);
+      <StyledPlaceholder>
+        <StyledTerminal>
+          <StyledTerminalHeader>
+            <StyledDot color="#ff5f56" />
+            <StyledDot color="#ffbd2e" />
+            <StyledDot color="#27c93f" />
+          </StyledTerminalHeader>
+          <StyledTerminalBody>
+            <StyledLine>
+              <span className="prompt">$</span>
+              <span className="command">git status</span>
+            </StyledLine>
+            <StyledLine>
+              <span className="output">
+                On branch <span className="highlight">portfolio-v2</span>
+              </span>
+            </StyledLine>
+            <StyledLine>
+              <span className="output">Changes staged for commit:</span>
+            </StyledLine>
+            <StyledLine>
+              <span className="output">
+                &nbsp;&nbsp;<span className="highlight">new:</span> projects/
+              </span>
+            </StyledLine>
+            <StyledLine>
+              <span className="prompt">$</span>
+              <span className="command">npm run build-portfolio</span>
+              <span className="cursor" />
+            </StyledLine>
+          </StyledTerminalBody>
+        </StyledTerminal>
 
-            return (
-              <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
-                <div className="project-content">
-                  <div>
-                    <p className="project-overline">Featured Project</p>
+        <StyledMessage>
+          <h3>Portfolio Under Construction</h3>
+          <p>
+            Curating projects and case studies to showcase here. Check back soon for featured work
+            samples.
+          </p>
+        </StyledMessage>
 
-                    <h3 className="project-title">
-                      <a href={external}>{title}</a>
-                    </h3>
-
-                    <div
-                      className="project-description"
-                      dangerouslySetInnerHTML={{ __html: html }}
-                    />
-
-                    {tech.length && (
-                      <ul className="project-tech-list">
-                        {tech.map((tech, i) => (
-                          <li key={i}>{tech}</li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <div className="project-links">
-                      {cta && (
-                        <a href={cta} aria-label="Course Link" className="cta">
-                          Learn More
-                        </a>
-                      )}
-                      {github && (
-                        <a href={github} aria-label="GitHub Link">
-                          <Icon name="GitHub" />
-                        </a>
-                      )}
-                      {external && !cta && (
-                        <a href={external} aria-label="External Link" className="external">
-                          <Icon name="External" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="project-image">
-                  <a href={external ? external : github ? github : '#'}>
-                    <GatsbyImage image={image} alt={title} className="img" />
-                  </a>
-                </div>
-              </StyledProject>
-            );
-          })}
-      </StyledProjectsGrid>
-    </section>
+        <StyledProgress>
+          <span>Building</span>
+          <div className="dots">
+            <span className="dot" />
+            <span className="dot" />
+            <span className="dot" />
+          </div>
+        </StyledProgress>
+      </StyledPlaceholder>
+    </StyledProjectsSection>
   );
 };
 
