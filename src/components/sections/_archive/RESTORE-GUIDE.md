@@ -52,6 +52,44 @@ import { Layout, Hero, About, Jobs, Featured, Projects, Contact } from '@compone
 <Contact />
 ```
 
+## What You Need to Build Your Portfolio
+
+Before creating featured projects, understand what's required:
+
+### Required Components
+
+**1. A Screenshot/Demo Image**
+
+- High-quality screenshot showing your project in action
+- Recommended size: 1200-1600px wide
+- Can be a website screenshot, app interface, or product demo
+- Save as `demo.png` in your project folder
+
+**2. The Actual Project**
+
+- A live website/demo (hosted on Netlify, Vercel, Heroku, GitHub Pages, etc.)
+- OR a GitHub repository with good documentation
+- OR both!
+
+**3. Project Metadata**
+
+- Brief description (2-3 sentences)
+- List of technologies used
+- Links to GitHub and/or live demo
+
+### What You DON'T Need
+
+- Presentations or slide decks
+- Video demonstrations (optional, but not required)
+- Lengthy documentation (keep descriptions brief)
+
+### Practical Workflow
+
+1. Build your project (web app, tool, library, etc.)
+2. Deploy it somewhere (if deployable)
+3. Take a high-quality screenshot
+4. Create the folder structure and markdown file (see below)
+
 ## Adding New Featured Projects
 
 Featured projects appear as large showcase cards with images.
