@@ -35,33 +35,12 @@ const StyledTabList = styled.div`
   @media (max-width: 600px) {
     display: flex;
     overflow-x: auto;
-    width: calc(100% + 100px);
-    padding-left: 50px;
-    margin-left: -50px;
+    width: 100%;
     margin-bottom: 30px;
-  }
-  @media (max-width: 480px) {
-    width: calc(100% + 50px);
-    padding-left: 25px;
-    margin-left: -25px;
-  }
-
-  li {
-    &:first-of-type {
-      @media (max-width: 600px) {
-        margin-left: 50px;
-      }
-      @media (max-width: 480px) {
-        margin-left: 25px;
-      }
-    }
-    &:last-of-type {
-      @media (max-width: 600px) {
-        padding-right: 50px;
-      }
-      @media (max-width: 480px) {
-        padding-right: 25px;
-      }
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 `;
@@ -118,11 +97,7 @@ const StyledHighlight = styled.div`
     width: 100%;
     max-width: var(--tab-width);
     height: 2px;
-    margin-left: 50px;
     transform: translateX(calc(${({ activeTabId }) => activeTabId} * var(--tab-width)));
-  }
-  @media (max-width: 480px) {
-    margin-left: 25px;
   }
 `;
 
