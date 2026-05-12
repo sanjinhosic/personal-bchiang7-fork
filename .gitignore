@@ -12,3 +12,9 @@ yarn-error.log
 # cover image composition workspace
 cover-candidates/
 cover-preview.png
+
+# playwright artifacts (used for previewing during development)
+.playwright-mcp/
+site-featured-*.png
+slide-*.png
+*.preview.png
