@@ -1,87 +1,39 @@
-<div align="center">
-  <img alt="Logo" src="https://raw.githubusercontent.com/bchiang7/v4/main/src/images/logo.png" width="100" />
-</div>
-<h1 align="center">
-  brittanychiang.com - v4
-</h1>
-<p align="center">
-  The fourth iteration of <a href="https://brittanychiang.com" target="_blank">brittanychiang.com</a> built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://www.netlify.com/" target="_blank">Netlify</a>
-</p>
-<p align="center">
-  Previous iterations:
-  <a href="https://github.com/bchiang7/v1" target="_blank">v1</a>,
-  <a href="https://github.com/bchiang7/v2" target="_blank">v2</a>,
-  <a href="https://github.com/bchiang7/bchiang7.github.io" target="_blank">v3</a>
-</p>
-<p align="center">
-  <a href="https://app.netlify.com/sites/brittanychiang/deploys" target="_blank">
-    <img src="https://api.netlify.com/api/v1/badges/1963b488-7b78-48c9-9e2d-6fb5e47ab3af/deploy-status" alt="Netlify Status" />
-  </a>
-</p>
+# sanjinhosic.com
 
-![demo](https://raw.githubusercontent.com/bchiang7/v4/main/src/images/demo.png)
+Personal portfolio site for Sanjin Hosic, built with Gatsby 3 and hosted on Cloudflare Pages.
 
-## 🚨 Forking this repo (please read!)
+## Local development
 
-Many people have contacted me asking me if they can use this code for their own website, and the answer to that question is usually **yes, with attribution**.
+This project pins Node 14.16.0 via `.nvmrc`:
 
-I value keeping my site open source, but as you all know, _**plagiarism is bad**_. It's always disheartening whenever I find that someone has copied my site without giving me credit. I spent a non-trivial amount of effort building and designing this iteration of my website, and I am proud of it! All I ask of you all is to not claim this effort as your own.
+```bash
+nvm use 14.16.0
+npm install
+npm run develop
+```
 
-Please also note that I did not build this site with the intention of it being a starter theme, so if you have questions about implementation, please refer to the [Gatsby docs](https://www.gatsbyjs.org/docs/).
+Site builds at http://localhost:8000.
 
-### TL;DR
+To build for production:
 
-Yes, you can fork this repo. Please give me proper credit by linking back to [brittanychiang.com](https://brittanychiang.com). Thanks!
+```bash
+npm run build
+```
 
-## 🛠 Installation & Set Up
+## Project structure
 
-1. Install the Gatsby CLI
+```
+src/
+  components/     # shared layout + section components (hero, about, jobs, featured, contact)
+  pages/          # gatsby file-system routing
+  config.js       # nav + social links + colors
+content/
+  featured/       # featured project markdown + cover images
+  jobs/           # work history entries
+```
 
-   ```sh
-   npm install -g gatsby-cli
-   ```
+Page sections render in the order set in `src/pages/index.js`.
 
-2. Install and use the correct version of Node using [NVM](https://github.com/nvm-sh/nvm)
+## Credits
 
-   ```sh
-   nvm install
-   ```
-
-3. Install dependencies
-
-   ```sh
-   yarn
-   ```
-
-4. Start the development server
-
-   ```sh
-   npm start
-   ```
-
-## 🚀 Building and Running for Production
-
-1. Generate a full static production build
-
-   ```sh
-   npm run build
-   ```
-
-1. Preview the site as it will appear once deployed
-
-   ```sh
-   npm run serve
-   ```
-
-## 🎨 Color Reference
-
-| Color          | Hex                                                                |
-| -------------- | ------------------------------------------------------------------ |
-| Navy           | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) `#0a192f` |
-| Light Navy     | ![#112240](https://via.placeholder.com/10/0a192f?text=+) `#112240` |
-| Lightest Navy  | ![#233554](https://via.placeholder.com/10/303C55?text=+) `#233554` |
-| Slate          | ![#8892b0](https://via.placeholder.com/10/8892b0?text=+) `#8892b0` |
-| Light Slate    | ![#a8b2d1](https://via.placeholder.com/10/a8b2d1?text=+) `#a8b2d1` |
-| Lightest Slate | ![#ccd6f6](https://via.placeholder.com/10/ccd6f6?text=+) `#ccd6f6` |
-| White          | ![#e6f1ff](https://via.placeholder.com/10/e6f1ff?text=+) `#e6f1ff` |
-| Green          | ![#64ffda](https://via.placeholder.com/10/64ffda?text=+) `#64ffda` |
+Forked from Brittany Chiang's [bchiang7/v4](https://github.com/bchiang7/v4) (MIT). The site framework and visual design are hers; all content (about, work history, featured projects, resume) is mine.
